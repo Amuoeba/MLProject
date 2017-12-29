@@ -14,14 +14,14 @@ from gym import wrappers
 def create_atari_env(env_id, video=False):
     env = gym.make(env_id)
     if video:
-        env = wrappers.Monitor(env, 'test', force=True)
+        env = wrappers.Monitor(env, 'test', force=True,video_callable=lambda episode_id: episode_id%10==0)
     env = MyAtariRescale42x42(env)
     env = MyNormalizedEnv(env)
     return env
 
 
 def _process_frame42(frame):
-    frame = frame[34:34 + 160, :160]
+    frame = frame[20:34 + 180, :160]
     # Resize by half, then down to 42x42 (essentially mipmapping). If
     # we resize directly we lose pixels that, when mapped to 42x42,
     # aren't close enough to the pixel boundary.
